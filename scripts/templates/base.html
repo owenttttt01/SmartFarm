@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<title>Smart Farm</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/w3css.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/googleapi.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}">
+<!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome2.css') }}"> -->
+</head>
+<style>
+
+body,h1,h2,h3,h4,h5,h6 {font-family: "Raleway", sans-serif}
+
+body, html {
+  height: 100%;
+  line-height: 1.8;
+}
+
+/* Full height image header */
+.bgimg-1 {
+  background-position: center;
+  background-size: cover;
+  background-image: url("/w3images/mac.jpg"); 
+  min-height: 100%;
+}
+
+.w3-bar .w3-button {
+  padding: 16px;
+}
+</style>
+<body>
+
+<!-- Navbar (sit on top) -->
+<div class="w3-top">
+  <div class="w3-bar w3-white w3-card" id="myNavbar">
+    <a href="/" class="w3-bar-item w3-button w3-wide">SMARTFARM</a>
+    <!-- Right-sided navbar links -->
+    <div class="w3-right w3-hide-small">
+      <a href="/about" class="w3-bar-item w3-button">ABOUT</a>
+      <a href="/db" class="w3-bar-item w3-button"> DATABASE</a>
+      <!-- <a href="/dashboard" class="w3-bar-item w3-button"> DASHBOARD</a> -->
+      <!-- <a href="#pricing" class="w3-bar-item w3-button"><i class="fa fa-usd"></i> PRICING</a>
+      <a href="#contact" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i> CONTACT</a> -->
+    </div>
+    <!-- Hide right-floated links on small screens and replace them with a menu icon -->
+
+    <a href="javascript:void(0)" class="w3-bar-item w3-button w3-right w3-hide-large w3-hide-medium" onclick="w3_open()">
+      <i class="fa fa-bars"></i>
+    </a>
+  </div>
+</div>
+
+<!-- Sidebar on small screens when clicking the menu icon -->
+<nav class="w3-sidebar w3-bar-block w3-black w3-card w3-animate-left w3-hide-medium w3-hide-large" style="display:none" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-large w3-padding-16">Close ×</a>
+  <a href="/" onclick="w3_close()" class="w3-bar-item w3-button">HOME</a>
+  <a href="/about" onclick="w3_close()" class="w3-bar-item w3-button">ABOUT</a>
+  <a href="/db" onclick="w3_close()" class="w3-bar-item w3-button">DATABASE</a>
+  <!-- <a href="/dashboard" onclick="w3_close()" class="w3-bar-item w3-button">DASHBOARD</a> -->
+</nav>
+
+
+<script>
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+      mySidebar.style.display = 'none';
+    } else {
+      mySidebar.style.display = 'block';
+    }
+  }
+  
+  // Close the sidebar with the close button
+  function w3_close() {
+      mySidebar.style.display = "none";
+  }
+  </script>
+
+
+{% block content %}{% endblock %}
+</body>
+</html>

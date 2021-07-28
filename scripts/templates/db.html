@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>Smart Farm: Database</title>
+<!-- Header -->
+<style>
+    table, th, td {
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    th, td {
+        padding: 15px;
+    }
+    table {
+        border-collapse: collapse;
+        width: 70%;
+    }
+</style>
+<div class="w3-container" style="margin-top:80px" id="showcase">
+    <center><h2>Database</h2></center>
+    <center><h4>IoT Device Data</h4></center>
+</div>
+<table class="center">
+    <thead>
+      <tr>
+          <th>ID</th>
+          <th>Device</th>
+          <th>Time</th>
+          <th>Status</th>
+          <th>Device Information</th>
+      </tr>
+      </thead>    
+      <tbody>
+       {% for row in comments %}    
+              <tr>
+                  <td>{{row[0]}}</td>
+                  <td>{{row[1]}}</td>
+                  <td>{{row[2]}}</td>
+                  <td>{{row[3]}}</td>
+                  <td>{{row[4]}}</td>
+              </tr>
+          {% endfor %}
+      </tbody>
+  </table>
+{% endblock %}
