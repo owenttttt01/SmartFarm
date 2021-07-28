@@ -29,15 +29,15 @@ def on_connect(client, userdata, flags, rc):
     else:
         print("Failed to connect, return code %d\n", rc)
 
-#client.tls_set(ca_certs='/root/iot_vol/scripts/cacert/ca.crt', certfile=None, keyfile='/root/iot_vol/scripts/cacert/ca.key', cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLS, ciphers=None)
-#connected=False
-#client.username_pw_set(username="justin",password="itztimmy")
-#client.on_connect = on_connect
-#client.connect(broker_address)
-#client.loop_start()
-#while connected != True:
-#    time.sleep(0.1)
-#client.loop_stop()
+client.tls_set(ca_certs='/root/iot_vol/scripts/cacert/ca.crt', certfile=None, keyfile='/root/iot_vol/scripts/cacert/ca.key', cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLS, ciphers=None)
+connected=False
+client.username_pw_set(username="justin",password="itztimmy")
+client.on_connect = on_connect
+client.connect(broker_address)
+client.loop_start()
+while connected != True:
+    time.sleep(0.1)
+client.loop_stop()
 
 while True:
     #mqttc=mqtt.Client()
@@ -89,6 +89,7 @@ while True:
         #file_object.write(str_content + "\n")
         #file_object.close()
         #client.publish("farm", str_created_r + "," +str_content)
+        client.publish("farm", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
         #print("farm", str_created_r + "," + str_content)
         print("farm", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
         time.sleep(1)
