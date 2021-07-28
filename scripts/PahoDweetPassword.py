@@ -57,8 +57,11 @@ while True:
         latest_created = latest_dweet[0]["created"]
         print("\nTime of created dweet: " + str(latest_created))
     
-        latest_content = latest_dweet[0]["content"]
-        print("\nContent of latest dweet: " + str(latest_content))
+        #latest_content = latest_dweet[0]["content"]
+        junk, sensor = sorted_content[1]
+        junk2, zvalue = sorted_content[2]
+        print("\nContent of latest dweet: " + "sensor: " + str(sensor) + ", zvalue: " + str(zvalue))
+
 
         #sorted_content = sorted(latest_content.items(), key = lambda kv:kv[0])
         
@@ -71,13 +74,13 @@ while True:
         #print(dweet_password)
 
         str_created = json.dumps(latest_created)
-        str_content = json.dumps(latest_content)
+        #str_content = json.dumps(latest_content)
 
         str_created_r = str_created.replace('"',"")
 
-        replace = '" {}'
-        for i in replace:
-            str_content = str_content.replace(i,"")
+        #replace = '" {}'
+        #for i in replace:
+         #   str_content = str_content.replace(i,"")
         #str_content_r = str_content.replace(":",",")
         #str_content_test = str_content.split(",")
 
@@ -85,7 +88,9 @@ while True:
         #file_object.write(str_created_r + ",")
         #file_object.write(str_content + "\n")
         #file_object.close()
-        client.publish("farm", str_created_r + "," +str_content)
+        #client.publish("farm", str_created_r + "," +str_content)
+        #print("farm", str_created_r + "," + str_content)
+        print("farm", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
         time.sleep(1)
         
         #paho_result.wait_for_publish()          
