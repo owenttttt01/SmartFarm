@@ -33,4 +33,4 @@ SET GLOBAL strict_password_validation = 1;
 GRANT ALL PRIVILEGES on SmartFarm.* TO 'sfadmin'@'localhost';
 GRANT SELECT, INSERT, UPDATE, CREATE ON sensors TO 'sfuser'@'localhost';
 GRANT SELECT, INSERT, UPDATE, CREATE ON sensorsUp TO 'sfuser'@'localhost';
-UPDATE mysql.user set user = 'sfr' where user = 'root';
+--UPDATE mysql.user set user = 'sfr' where user = 'root';
