@@ -10,7 +10,7 @@ import re
 
 app = Flask(__name__)
 db_user = "sfuser"
-db_password = "sfPassword"
+db_password = "sfp@ssw0rD$su$"
 db_address = "localhost"
 db_database = "SmartFarm"
 
