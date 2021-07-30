@@ -1,4 +1,4 @@
-
+service mysql start
 SECURE_MYSQL=$(expect -c "
 set timeout 10
 spawn mysql_secure_installation

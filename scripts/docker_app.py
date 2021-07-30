@@ -7,6 +7,8 @@ import random
 import MySQLdb
 import os
 import re
+# from os import urandom
+# from Crypto.Cipher import AES
 
 app = Flask(__name__)
 db_user = "sfuser"
@@ -50,7 +52,7 @@ def update(Id=None):
     match_id = re.findall(regex_id, Id)
     if not match_id:
         check = check + 1
-        print("Failed to update. Incorrect Format: ",Id, "\n")
+        print("Failed to update. Incorrect Id Format: ",Id, "\n")
 
     #Check that value of device status is either ON or OFF
     if (device_statusStr == "ON") and (device_statusStr != "OFF"):
@@ -59,21 +61,21 @@ def update(Id=None):
         pass
     else:
         check = check + 1
-        print("Failed to update. Incorrect Format: "+device_statusStr, "\n")
+        print("Failed to update. Incorrect Status Format: "+device_statusStr, "\n")
 
     #Validate device time string
     regex_time = "^([0-9][0-9][0-9][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[ ](2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$"
     match_time = re.findall(regex_time, device_timeStr)
     if not match_time:
         check = check + 1
-        print("Failed to update. Incorrect Format: "+device_timeStr, "\n")    
+        print("Failed to update. Incorrect Time Format: "+device_timeStr, "\n")    
 
     #Validate device information string
     regex_info = r"^[a-zA-Z_]+[ ]+[A-Za-z]+[: ]+[0-9]{1,3}$"
     match_info = re.findall(regex_info, device_informationStr)
     if not match_info:
         check = check + 1
-        print("Failed to update. Incorrect Format: "+device_informationStr, "\n")
+        print("Failed to update. Incorrect Device Information Format: "+device_informationStr, "\n")
     
     if check == 0:
         try:
@@ -116,7 +118,7 @@ def add(device_name=None):
     check_name = device_name.isalpha()
     if check_name != True:
         check = check + 1
-        print("Failed to add. Incorrect Format: "+device_name, "\n")
+        print("Failed to add. Incorrect Name Format: "+device_name, "\n")
 
     #Check that value of device status is either ON or OFF
     if (device_statusStr == "ON") and (device_statusStr != "OFF"):
@@ -125,21 +127,32 @@ def add(device_name=None):
         pass
     else:
         check = check + 1
-        print("Failed to add. Incorrect Format: "+device_statusStr, "\n")
+        print("Failed to add. Incorrect Status Format: "+device_statusStr, "\n")
 
     #Validate device time string
     regex_time = "^([0-9][0-9][0-9][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[ ](2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$"
     match_time = re.findall(regex_time, device_timeStr)
     if not match_time:
         check = check + 1
-        print("Failed to add. Incorrect Format: "+device_timeStr, "\n")    
+        print("Failed to add. Incorrect Time Format: "+device_timeStr, "\n")    
 
     #Validate device information string
     regex_info = r"^[a-zA-Z_]+[ ]+[A-Za-z]+[: ]+[0-9]{1,3}$"
     match_info = re.findall(regex_info, device_informationStr)
     if not match_info:
         check = check + 1
-        print("Failed to add. Incorrect Format: "+device_informationStr, "\n")
+        print("Failed to add. Incorrect Device Information Format: "+device_informationStr, "\n")
+
+    # #secret_key = urandom(16).encode("UTF8")
+    # key = "abcdefghijklmnop"
+    # secret_key = str.encode(key)
+    # #iv = urandom(16).encode("UTF8")
+    # iv = str.encode(key)
+    # aes_en = AES.new(secret_key, AES.MODE_CBC, iv)
+    # encrypt_name = aes_en.encrypt(str.encode(device_name))
+    # encrypt_status = aes_en.encrypt(str.encode(device_statusStr))
+    # encrypt_time = aes_en.encrypt(str.encode(device_timeStr))
+    # encrypt_info = aes_en.encrypt(str.encode(device_informationStr))
 
     if check == 0:
         try:
@@ -152,6 +165,7 @@ def add(device_name=None):
             #Prepared Statement
             query="insert into sensors(Device,DeviceTime,DeviceStatus,DeviceInformation) values (%s,%s,%s,%s);"
             q1 = (device_name, device_timeStr, device_statusStr, device_informationStr)
+            #q1 = (encrypt_name, encrypt_time, encrypt_status, encrypt_info)
             cursor.execute(query, q1)
             print("INSERT", q1)
             db.commit()
