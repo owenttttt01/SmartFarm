@@ -88,7 +88,7 @@ def on_message(client, userdata, message):
     os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceTime='+timestamp2+'&DeviceStatus='+deviceStatus+'&DeviceInformation='+measuring_factor+'%20level%20:%20'+str(measuring_value)+'"')
 Messagereceived=False
 
-client.tls_set(ca_certs='/root/iot_vol/scripts/cacert/ca.crt', certfile=None, keyfile='/root/iot_vol/scripts/cacert/ca.key', cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLS, ciphers=None)
+client.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', certfile=None, keyfile='/root/iot_vol/SmartFarm/scripts/cacert/ca.key', cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLS, ciphers=None)
 
 connected=False
 client.username_pw_set(username="justin",password="itztimmy")
