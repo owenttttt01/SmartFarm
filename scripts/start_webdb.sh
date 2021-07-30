@@ -7,7 +7,6 @@ chmod 700 docker_app.py
 chmod 700 mqtt_app.py
 chmod 700 init_mysql.sql
 chmod 700 mysql_secure.sh
-./db.sh 2>/dev/null
 if [ $(/etc/init.d/mysql status | grep -o 'stopped' | wc -w) -eq 1 ]
 then
 	./mysql_secure.sh >/dev/null
