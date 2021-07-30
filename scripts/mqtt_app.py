@@ -55,7 +55,7 @@ def on_message(client, userdata, message):
             device_name = "SmartLight"
             measuring_factor = "Light_Intensity"
             device_id = "1"
-            if (measuring_value > 70):
+            if (measuring_value < 70):
                 deviceStatus = "ON"
         elif (position == 1):
             device_name = "SmartSprinkler"
