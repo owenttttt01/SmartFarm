@@ -3,13 +3,13 @@ docker network create --subnet=172.19.0.0/16 iot_network
 docker network ls 
 
 #run iot-sensor container using iot-image
-docker run --cap-add=NET_ADMIN -it --rm --hostname iot-sensor --net iot_network --ip 172.19.0.11 -v iot_vol:/root/iot_vol --name iot-sensor iot-image bash
+docker run --cap-add=NET_ADMIN -it --rm --hostname iot-sensor --net iot_network --ip 172.19.0.11 -v iot_vol:/root/iot_vol --name iot-sensor iot-image2 bash
 
 #run iot-mqtt container using iot-image
-docker run --cap-add=NET_ADMIN -it --rm --hostname iot-mqtt --net iot_network --ip 172.19.0.12 -v iot_vol:/root/iot_vol --name iot-mqtt iot-image bash
+docker run --cap-add=NET_ADMIN -it --rm --hostname iot-mqtt --net iot_network --ip 172.19.0.12 -v iot_vol:/root/iot_vol --name iot-mqtt iot-image2 bash
 
 #run iot-db container using iot-image
-docker run --cap-add=NET_ADMIN -it --rm --hostname iot-db --net iot_network --ip 172.19.0.13 -v iot_vol:/root/iot_vol --name iot-db iot-image bash
+docker run --cap-add=NET_ADMIN -it --rm --hostname iot-db --net iot_network --ip 172.19.0.13 -v iot_vol:/root/iot_vol --name iot-db iot-image2 bash
 
 #options
 --cap-add=NET_ADMIN 
@@ -35,3 +35,5 @@ volumes to mount:container target directory
 
 --name
 assign container name
+
+git clone https://github.com/owenttttt01/SmartFarm
