@@ -27,7 +27,7 @@ def on_connect(client, userdata, flags, rc):
     else:
         print("Failed to connect, return code %d\n", rc)
 
-client.tls_set(ca_certs='/root/iot_vol/scripts/cacert/ca.crt', certfile=None, keyfile='/root/iot_vol/scripts/cacert/ca.key', cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLS, ciphers=None)
+client.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', certfile=None, keyfile='/root/iot_vol/SmartFarm/scripts/cacert/ca.key', cert_reqs=ssl.CERT_REQUIRED, tls_version=ssl.PROTOCOL_TLS, ciphers=None)
 connected=False
 client.username_pw_set(username="justin",password="itztimmy")
 client.on_connect = on_connect
