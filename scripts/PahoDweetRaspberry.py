@@ -86,11 +86,11 @@ def sensor_check(sensor_name, measuring_value):
           measuring_factor = "Soil_Moisture"
           device_id = "2"
           if (measuring_value < 30):
-              senor_dict["Smart Sprinkler"] = "ON"
+              sensor_dict["Smart Sprinkler"] = "ON"
               deviceStatus = "ON"
               GPIO.output(BlueLEDPin, True)
           else:
-              senor_dict["Smart Sprinkler"] = "OFF"
+              sensor_dict["Smart Sprinkler"] = "OFF"
               deviceStatus = "OFF"
               GPIO.output(BlueLEDPin, False)
 
