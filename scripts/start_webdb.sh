@@ -2,7 +2,6 @@
 
 cd /root/iot_vol/SmartFarm/scripts
 chmod 700 start_webdb.sh
-chmod 700 db.sh
 chmod 700 docker_app.py
 chmod 700 mqtt_app.py
 chmod 700 init_mysql.sql
