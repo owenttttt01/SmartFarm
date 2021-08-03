@@ -22,10 +22,10 @@ create table sensors (Id int(8) not null auto_increment, Device varchar(128) not
 drop table if exists sensorsUp;
 --create table sensorsUp (Id int(8) not null auto_increment, Device varchar(48) not null , DeviceTime varchar(20), DeviceStatus varchar(3), DeviceInformation varchar(255), primary key (Id));
 create table sensorsUp (Id int(8) not null auto_increment, Device varchar(128) not null , DeviceTime varchar(128), DeviceStatus varchar(128), DeviceInformation varchar(128), primary key (Id));
-insert into sensorsUp (Id,Device) values ('1', 'SmartLight');
-insert into sensorsUp (Id,Device) values ('2', 'SmartSprinkler');
-insert into sensorsUp (Id,Device) values ('3', 'SmartShelter');
-insert into sensorsUp (Id,Device) values ('4', 'SmartScarecrow');
+insert into sensorsUp (Id,Device,DeviceStatus) values ('1', 'SmartLight', 'OFF');
+insert into sensorsUp (Id,Device,DeviceStatus) values ('2', 'SmartSprinkler', 'OFF');
+insert into sensorsUp (Id,Device,DeviceStatus) values ('3', 'SmartShelter', 'OFF');
+insert into sensorsUp (Id,Device,DeviceStatus) values ('4', 'SmartScarecrow', 'OFF');
 INSTALL SONAME 'simple_password_check';
 SET GLOBAL simple_password_check_minimal_length = 14;
 SET GLOBAL simple_password_check_digits=1;
