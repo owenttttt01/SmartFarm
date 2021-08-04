@@ -22,7 +22,7 @@ create table sensors (Id int(8) not null auto_increment, Device varchar(128) not
 drop table if exists sensorsUp;
 --create table sensorsUp (Id int(8) not null auto_increment, Device varchar(48) not null , DeviceTime varchar(20), DeviceStatus varchar(3), DeviceInformation varchar(255), primary key (Id));
 --create table sensorsUp (Id int(8) not null auto_increment, Device varchar(128) not null , DeviceTime varchar(128), DeviceStatus varchar(128), DeviceInformation varchar(128), primary key (Id));
-create table sensorsUp (Id int(8) not null auto_increment, Device varchar(128) not null ,DeviceStatus varchar(128), primary key (Id));
+create table sensorsUp (Id int(8) not null auto_increment, Device varchar(128) not null , DeviceStatus varchar(128), primary key (Id));
 insert into sensorsUp (Id,Device,DeviceStatus) values ('1', 'SmartLight', 'OFF');
 insert into sensorsUp (Id,Device,DeviceStatus) values ('2', 'SmartSprinkler', 'OFF');
 insert into sensorsUp (Id,Device,DeviceStatus) values ('3', 'SmartShelter', 'OFF');
