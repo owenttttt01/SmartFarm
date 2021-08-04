@@ -72,7 +72,7 @@ def sensor_check(sensor_name, measuring_value):
           device_name = "SmartLight"
           measuring_factor = "Light_Intensity"
           device_id = "1"
-          if (measuring_value < 70):
+          if (measuring_value < 60):
               sensor_dict["Smart Light"] = "ON"
               deviceStatus = "ON"
               GPIO.output(YellowLEDPin, True)
