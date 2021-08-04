@@ -43,11 +43,12 @@ def init():
 @app.route("/update/", methods=["GET","PUT"] )
 @app.route("/update/<Id>", methods=["GET","PUT"] )
 def update(Id=None):
-    device_nameStr = request.args.get('Device')
-    device_timeStr = request.args.get('DeviceTime') 
+    # device_nameStr = request.args.get('Device')
+    # device_timeStr = request.args.get('DeviceTime') 
     device_statusStr = request.args.get('DeviceStatus')
-    device_informationStr = request.args.get('DeviceInformation')
-    if device_nameStr == None and Id == None and device_timeStr == None and device_statusStr == None and device_informationStr == None:
+    # device_informationStr = request.args.get('DeviceInformation')
+    #if device_nameStr == None and Id == None and device_timeStr == None and device_statusStr == None and device_informationStr == None:
+    if Id == None and device_statusStr == None:
         #return "usage: update/ID?'DeviceTime=VALUE&DeviceStatus=VALUE&DeviceInformation=VALUE'"
         return "INCORRECT SYNTAX\n"
     
@@ -69,24 +70,24 @@ def update(Id=None):
         check = check + 1
         print("Failed to update. Incorrect Status Format: "+device_statusStr, "\n")
 
-    #Validate device time string
-    regex_time = "^([0-9][0-9][0-9][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[ ](2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$"
-    match_time = re.findall(regex_time, device_timeStr)
-    if not match_time:
-        check = check + 1
-        print("Failed to update. Incorrect Time Format: "+device_timeStr, "\n")    
+    # #Validate device time string
+    # regex_time = "^([0-9][0-9][0-9][0-9])[-](0[1-9]|1[012])[-](0[1-9]|[12][0-9]|3[01])[ ](2[0-3]|[01]?[0-9]):([0-5]?[0-9]):([0-5]?[0-9])$"
+    # match_time = re.findall(regex_time, device_timeStr)
+    # if not match_time:
+    #     check = check + 1
+    #     print("Failed to update. Incorrect Time Format: "+device_timeStr, "\n")    
 
-    #Validate device information string
-    regex_info = r"^[a-zA-Z_]+[ ]+[A-Za-z]+[: ]+[0-9]{1,3}$"
-    match_info = re.findall(regex_info, device_informationStr)
-    if not match_info:
-        check = check + 1
-        print("Failed to update. Incorrect Device Information Format: "+device_informationStr, "\n")
+    # #Validate device information string
+    # regex_info = r"^[a-zA-Z_]+[ ]+[A-Za-z]+[: ]+[0-9]{1,3}$"
+    # match_info = re.findall(regex_info, device_informationStr)
+    # if not match_info:
+    #     check = check + 1
+    #     print("Failed to update. Incorrect Device Information Format: "+device_informationStr, "\n")
     
     #Encrypt encoded data before updating db
-    encrypt_time = fernet.encrypt(device_timeStr.encode())
+    # encrypt_time = fernet.encrypt(device_timeStr.encode())
     encrypt_status = fernet.encrypt(device_statusStr.encode())
-    encrypt_info = fernet.encrypt(device_informationStr.encode())
+    # encrypt_info = fernet.encrypt(device_informationStr.encode())
 
     if check == 0:
         try:
@@ -99,9 +100,9 @@ def update(Id=None):
         try:
             #query="update sensorsUp set DeviceTime = '" + db.escape_string(device_timeStr).decode("UTF-8") + "', DeviceStatus = '" + db.escape_string(device_statusStr).decode("UTF-8") + "', DeviceInformation = '" + db.escape_string(device_informationStr).decode("UTF-8") + "' where Id = '" + db.escape_string(Id).decode("UTF-8") + "';"
             #Prepared Statement
-            query="update sensorsUp set DeviceTime = %s, DeviceStatus = %s, DeviceInformation = %s where Id = %s;"
-            #q1 = (device_timeStr, device_statusStr, device_informationStr, Id)
-            q1 = (encrypt_time, encrypt_status, encrypt_info, Id)
+            #query="update sensorsUp set DeviceTime = %s, DeviceStatus = %s, DeviceInformation = %s where Id = %s;"
+            query="update sensorsUp set DeviceStatus = %s, where Id = %s;"
+            q1 = (encrypt_status, Id)
             cursor.execute(query, q1)
             # print(query)
             # cursor.execute(query)
