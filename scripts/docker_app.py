@@ -101,7 +101,7 @@ def update(Id=None):
             #query="update sensorsUp set DeviceTime = '" + db.escape_string(device_timeStr).decode("UTF-8") + "', DeviceStatus = '" + db.escape_string(device_statusStr).decode("UTF-8") + "', DeviceInformation = '" + db.escape_string(device_informationStr).decode("UTF-8") + "' where Id = '" + db.escape_string(Id).decode("UTF-8") + "';"
             #Prepared Statement
             #query="update sensorsUp set DeviceTime = %s, DeviceStatus = %s, DeviceInformation = %s where Id = %s;"
-            query="update sensorsUp set DeviceStatus = %s, where Id = %s;"
+            query="update sensorsUp set DeviceStatus = %s where Id = %s;"
             q1 = (encrypt_status, Id)
             cursor.execute(query, q1)
             # print(query)
