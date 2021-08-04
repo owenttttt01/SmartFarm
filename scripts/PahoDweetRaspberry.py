@@ -72,7 +72,8 @@ def sensor_check(sensor_name, measuring_value):
           device_name = "SmartLight"
           measuring_factor = "Light_Intensity"
           device_id = "1"
-          if (measuring_value < 60):
+
+          if (measuring_value > 70):
               sensor_dict["Smart Light"] = "ON"
               deviceStatus = "ON"
               GPIO.output(YellowLEDPin, True)
@@ -85,6 +86,7 @@ def sensor_check(sensor_name, measuring_value):
           device_name = "SmartSprinkler"
           measuring_factor = "Soil_Moisture"
           device_id = "2"
+
           if (measuring_value < 30):
               sensor_dict["Smart Sprinkler"] = "ON"
               deviceStatus = "ON"
@@ -98,6 +100,7 @@ def sensor_check(sensor_name, measuring_value):
           device_name = "SmartShelter"
           measuring_factor = "Temperature"
           device_id = "3"
+
           if (measuring_value > 35):
               sensor_dict["Smart Shelter"] = "ON"
               deviceStatus = "ON"
@@ -111,6 +114,7 @@ def sensor_check(sensor_name, measuring_value):
           device_name = "SmartScarecrow"
           measuring_factor = "Motion_Detection"
           device_id = "4"
+
           if (measuring_value > 35):
               sensor_dict["Smart Scarecrow"] = "ON"
               deviceStatus = "ON"
@@ -123,9 +127,14 @@ def sensor_check(sensor_name, measuring_value):
       print('\nDevice Status = '+deviceStatus)
       print('\nDevice Name = '+device_name)
       print('\nMeasuring factor = '+measuring_factor)
-  else:
-      print("Sensor name not recognised")
 
+      return measuring_factor
+
+  else:
+        data = "invalid"
+        print("Invalid Data")
+
+        return data
 
 print("\nAll Smart Devices are currently OFF\n")
 GPIO.output(GreenLEDPin, False)
@@ -147,9 +156,9 @@ def on_connect(client, userdata, flags, rc):
     else:
         print("Failed to connect, return code %d\n", rc)
 
-client.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
+#client.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
 connected=False
-client.username_pw_set(username="justin",password="itztimmy")
+#client.username_pw_set(username="justin",password="itztimmy")
 client.on_connect = on_connect
 client.connect(broker_address)
 client.loop_start()
@@ -166,6 +175,7 @@ while True:
     password_tuple = sorted_content[0]
     ap, dweet_password = password_tuple
     if new_created != old_created and master_password == dweet_password:
+        data = "valid"
         counter += 1
         print(str(counter) + " New Dweet Detected", end = "\n")
         old_created = new_created
@@ -179,7 +189,7 @@ while True:
         junk2, zvalue = sorted_content[2]
         print("\nContent of latest dweet: " + "sensor: " + str(sensor) + ", zvalue: " + str(zvalue))
         
-        sensor_check(sensor, zvalue)
+        measuring_factor = sensor_check(sensor, zvalue)
         print("\nCurrent LED Status")
         print("===========================================")
         print("Smart Light (Yellow LED): " + sensor_dict["Smart Light"])
@@ -191,9 +201,15 @@ while True:
         str_created = json.dumps(latest_created)
 
         str_created_r = str_created.replace('"',"")
+        
+        if measuring_factor != "invalid":
+            client.publish('farm/'+measuring_factor, str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+            print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
 
-        client.publish("farm", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
-        print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+        else:
+            print("No data sent")
+            continue
+
         time.sleep(1)
         
     else:
