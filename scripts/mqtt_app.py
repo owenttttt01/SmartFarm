@@ -85,7 +85,7 @@ def on_message(client, userdata, message):
 
     #curling into database
     os.system('curl http://172.19.0.13:8080/add/'+device_name+'?"DeviceTime='+timestamp2+'&DeviceStatus='+deviceStatus+'&DeviceInformation='+measuring_factor+'%20level%20:%20'+str(measuring_value)+'"')
-    os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceTime='+timestamp2+'&DeviceStatus='+deviceStatus+'"')
+    os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
 #    os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceTime='+timestamp2+'&DeviceStatus='+deviceStatus+'&DeviceInformation='+measuring_factor+'%20level%20:%20'+str(measuring_value)+'"')
 #   if device_id == "3" and deviceStatus == "ON":
 #        os.system('curl http://172.19.0.13:8080/update/1?"DeviceStatus=ON"')
