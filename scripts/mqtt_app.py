@@ -83,19 +83,24 @@ def on_message(client, userdata, message):
         print("Sensor name not recognised")
 
 
-
+    #curling into database
     os.system('curl http://172.19.0.13:8080/add/'+device_name+'?"DeviceTime='+timestamp2+'&DeviceStatus='+deviceStatus+'&DeviceInformation='+measuring_factor+'%20level%20:%20'+str(measuring_value)+'"')
-    os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceTime='+timestamp2+'&DeviceStatus='+deviceStatus+'&DeviceInformation='+measuring_factor+'%20level%20:%20'+str(measuring_value)+'"')
+    os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceTime='+timestamp2+'&DeviceStatus='+deviceStatus+'"')
+#    os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceTime='+timestamp2+'&DeviceStatus='+deviceStatus+'&DeviceInformation='+measuring_factor+'%20level%20:%20'+str(measuring_value)+'"')
+#   if device_id == "3" and deviceStatus == "ON":
+#        os.system('curl http://172.19.0.13:8080/update/1?"DeviceStatus=ON"')
+#   else:
+#        os.system('curl http://172.19.0.13:8080/update/1?"DeviceStatus=OFF"')
 Messagereceived=False
 
-client.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
+#client.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
 
 connected=False
-client.username_pw_set(username="justin",password="itztimmy")
+#client.username_pw_set(username="justin",password="itztimmy")
 client.on_message = on_message
 client.connect(broker)
 client.on_connect = on_connect
-client.subscribe("farm")
+client.subscribe("farm/+")
 client.loop_start()
 while connected != True:
     time.sleep(0.1)
