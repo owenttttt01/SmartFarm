@@ -248,7 +248,7 @@ while True:
         if zvalue == "on" or zvalue == "off":
             on_check(sensor, zvalue)
             measuring_factor = "invalid"
-        else
+        else:
             measuring_factor = sensor_check(sensor, zvalue)
 
         print("\nCurrent LED Status")
@@ -285,9 +285,9 @@ while True:
                 connected = False
             elif measuring_factor == "Soil_Moisture": 
 
-                #moisture_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-#connected=False
-                #moisture_sensor.username_pw_set(username="justin",password="itztimmy")V
+                moisture_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
+                connected=False
+                moisture_sensor.username_pw_set(username="justin",password="itztimmy")
                 moisture_sensor.on_connect = on_connect
                 moisture_sensor.connect(broker_address)
                 moisture_sensor.loop_start()
@@ -322,8 +322,8 @@ while True:
                 print("Disconnected from MQTT Broker.")
             elif measuring_factor =="Motion": 
 
-                #motion_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-                #motion_sensor.username_pw_set(username="justin",password="itztimmy")V
+                motion_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
+                motion_sensor.username_pw_set(username="justin",password="itztimmy")
                 motion_sensor.on_connect = on_connect
                 motion_sensor.connect(broker_address)
                 motion_sensor.loop_start()
