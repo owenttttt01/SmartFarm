@@ -68,6 +68,65 @@ sensor_dict = {
 
 deviceStatus = "OFF"
 
+def on_check(sensor_name, status):
+    if sensor_name in sensor_array:
+        position = sensor_array.index(sensor_name)
+        if  (position == 0):
+            device_id = "1"
+
+            if (status == "on"):
+                sensor_dict["Smart Light"] = "ON"
+                deviceStatus = "ON"
+                GPIO.output(YellowLEDPin, True)
+                os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
+            else:
+                sensor_dict["Smart Light"] = "OFF"
+                deviceStatus = "OFF"
+                GPIO.output(YellowLEDPin, False)
+                os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
+
+        elif (position == 1):
+            device_id = "2"
+
+            if (status == "on"):
+                sensor_dict["Smart Sprinkler"] = "ON"
+                deviceStatus = "ON"
+                GPIO.output(BlueLEDPin, True)
+                os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
+            else:
+                sensor_dict["Smart Sprinkler"] = "OFF"
+                deviceStatus = "OFF"
+                GPIO.output(BlueLEDPin, False)
+                os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
+
+        elif (position == 2):
+            device_id = "3"
+
+            if (status == "on"):
+                sensor_dict["Smart Shelter"] = "ON"
+                deviceStatus = "ON"
+                GPIO.output(GreenLEDPin, True)
+                os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
+            else:
+                sensor_dict["Smart Shelter"] = "OFF"
+                deviceStatus = "OFF"
+                GPIO.output(GreenLEDPin, False)
+                os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
+
+        elif (position == 3):
+            device_id = "4"
+
+            if (status == "on"):
+                sensor_dict["Smart Scarecrow"] = "ON"
+                deviceStatus = "ON"
+                GPIO.output(RedLEDPin, True)
+                os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
+            else:
+                sensor_dict["Smart Scarecrow"] = "OFF"
+                deviceStatus = "OFF"
+                GPIO.output(RedLEDPin, False)
+                os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
+
 def sensor_check(sensor_name, measuring_value):
   if sensor_name in sensor_array:
       position = sensor_array.index(sensor_name)
@@ -186,7 +245,12 @@ while True:
         junk2, zvalue = sorted_content[2]
         print("\nContent of latest dweet: " + "sensor: " + str(sensor) + ", zvalue: " + str(zvalue))
         
-        measuring_factor = sensor_check(sensor, zvalue)
+        if zvalue == "on" or zvalue == "off":
+            on_check(sensor, zvalue)
+            measuring_factor = "invalid"
+        else
+            measuring_factor = sensor_check(sensor, zvalue)
+
         print("\nCurrent LED Status")
         print("===========================================")
         print("Smart Light (Yellow LED): " + sensor_dict["Smart Light"])
@@ -198,6 +262,7 @@ while True:
         str_created = json.dumps(latest_created)
 
         str_created_r = str_created.replace('"',"")
+        
         
         if measuring_factor != "invalid":
             if measuring_factor == "Light_Intensity":
@@ -222,7 +287,7 @@ while True:
 
                 #moisture_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
 #connected=False
-                #moisture_sensor.username_pw_set(username="justin",password="itztimmy")
+                #moisture_sensor.username_pw_set(username="justin",password="itztimmy")V
                 moisture_sensor.on_connect = on_connect
                 moisture_sensor.connect(broker_address)
                 moisture_sensor.loop_start()
@@ -255,10 +320,10 @@ while True:
 
                 connected = False  
                 print("Disconnected from MQTT Broker.")
-            elif measuring_factor == "Motion": 
+            elif measuring_factor =="Motion": 
 
                 #motion_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-                #motion_sensor.username_pw_set(username="justin",password="itztimmy")
+                #motion_sensor.username_pw_set(username="justin",password="itztimmy")V
                 motion_sensor.on_connect = on_connect
                 motion_sensor.connect(broker_address)
                 motion_sensor.loop_start()
