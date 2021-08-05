@@ -1,2 +1,14 @@
-user justin
+user Temperature
 topic farm/Temperature
+
+user Moisture
+topic farm/Soil_Moisture
+
+user Motion
+topic farm/Motion
+
+user Daylight
+topic farm/Light_Intensity
+
+user justin
+topic #
