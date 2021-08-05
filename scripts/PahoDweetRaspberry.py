@@ -107,8 +107,10 @@ def sensor_check(sensor_name, measuring_value):
 
           if (measuring_value > 35):
               sensor_dict["Smart Shelter"] = "ON"
+              sensor_dict["Smart Light"] = "ON"
               deviceStatus = "ON"
               GPIO.output(RedLEDPin, True)
+              GPIO.output(YellowLEDPin,True)
           else:
               sensor_dict["Smart Shelter"] = "OFF"
               deviceStatus = "OFF"
