@@ -118,7 +118,7 @@ def sensor_check(sensor_name, measuring_value):
 
       elif (position == 3):
           device_name = "SmartScarecrow"
-          measuring_factor = "Motion_Detection"
+          measuring_factor = "Motion"
           device_id = "4"
 
           if (measuring_value > 35):
@@ -222,7 +222,7 @@ while True:
 
                 #moisture_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
 #connected=False
-                #moisture_sensor.username_pw_set(username="justin",password="itztimmy")V
+                #moisture_sensor.username_pw_set(username="justin",password="itztimmy")
                 moisture_sensor.on_connect = on_connect
                 moisture_sensor.connect(broker_address)
                 moisture_sensor.loop_start()
@@ -255,10 +255,10 @@ while True:
 
                 connected = False  
                 print("Disconnected from MQTT Broker.")
-            elif measuring_factor =="Motion": 
+            elif measuring_factor == "Motion": 
 
                 #motion_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-                #motion_sensor.username_pw_set(username="justin",password="itztimmy")V
+                #motion_sensor.username_pw_set(username="justin",password="itztimmy")
                 motion_sensor.on_connect = on_connect
                 motion_sensor.connect(broker_address)
                 motion_sensor.loop_start()
