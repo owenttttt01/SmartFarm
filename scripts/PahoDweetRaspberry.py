@@ -109,7 +109,7 @@ def on_check(sensor_name, status):
                 sensor_dict["Smart Light"] = "ON"
                 deviceStatus = "ON"
                 GPIO.output(GreenLEDPin, True)
-                GPIO.output(YellowLEDPin, False)
+                GPIO.output(YellowLEDPin, True)
                 os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
                 os.system('curl http://172.19.0.13:8080/update/'+device_did+'?"DeviceStatus='+deviceStatus+'"')
             else:
