@@ -109,12 +109,12 @@ def sensor_check(sensor_name, measuring_value):
               sensor_dict["Smart Shelter"] = "ON"
               sensor_dict["Smart Light"] = "ON"
               deviceStatus = "ON"
-              GPIO.output(RedLEDPin, True)
+              GPIO.output(GreenLEDPin, True)
               GPIO.output(YellowLEDPin,True)
           else:
               sensor_dict["Smart Shelter"] = "OFF"
               deviceStatus = "OFF"
-              GPIO.output(RedLEDPin, False)
+              GPIO.output(GreenLEDPin, False)
 
       elif (position == 3):
           device_name = "SmartScarecrow"
