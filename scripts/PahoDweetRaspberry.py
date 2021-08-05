@@ -15,12 +15,13 @@ import os
 import time
 import json
 import paho.mqtt.client as mqtt
+import paho.mqtt.publish as publish
 
 _=os.system("clear")
 
 broker_address="172.19.0.12"
 
-daylight_sensor = mqtt.Client("Daylight")
+daylight_sensor = mqtt.Client("Daylight",clean_session=True)
 moisture_sensor = mqtt.Client("Moisture")
 thermometer = mqtt.Client("Temperature")
 motion_sensor = mqtt.Client("Motion")
@@ -269,25 +270,25 @@ while True:
                  
                 daylight_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
 
-                daylight_sensor.username_pw_set(username="justin",password="itztimmy")
+                daylight_sensor.username_pw_set(username="Daylight",password="Passw0rd$")
                 daylight_sensor.on_connect = on_connect
                 daylight_sensor.connect(broker_address)
                 daylight_sensor.loop_start()
                 while connected != True:
                     time.sleep(0.1)
                 daylight_sensor.loop_stop()
-                daylight_sensor.publish('farm/'+measuring_factor, str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
                 print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
                 print("Sent to topic: farm/"+measuring_factor)
                 time.sleep(1)
                 daylight_sensor.disconnect()
                 print("Disconnected from MQTT Broker.")
                 connected = False
+                daylight_sensor.reinitialise()
             elif measuring_factor == "Soil_Moisture": 
 
                 moisture_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
                 connected=False
-                moisture_sensor.username_pw_set(username="justin",password="itztimmy")
+                moisture_sensor.username_pw_set(username="Moisture",password="Passw0rd$")
                 moisture_sensor.on_connect = on_connect
                 moisture_sensor.connect(broker_address)
                 moisture_sensor.loop_start()
@@ -300,12 +301,13 @@ while True:
                 time.sleep(1)
                 moisture_sensor.disconnect()
                 connected = False
+                moisture_sensor.reinitialise()
                 print("Disconnected from MQTT Broker.")
             elif measuring_factor == "Temperature":
                 
                 thermometer.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
             
-                thermometer.username_pw_set(username="justin",password="itztimmy")
+                thermometer.username_pw_set(username="Temperature",password="Passw0rd$")
                 thermometer.on_connect = on_connect
                 thermometer.connect(broker_address)
                 thermometer.loop_start()
@@ -317,13 +319,14 @@ while True:
                 print("Sent to topic: farm/"+measuring_factor)
                 time.sleep(1)
                 thermometer.disconnect()
-
+                
                 connected = False  
+                thermometer.reinitialise()
                 print("Disconnected from MQTT Broker.")
             elif measuring_factor =="Motion": 
 
                 motion_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-                motion_sensor.username_pw_set(username="justin",password="itztimmy")
+                motion_sensor.username_pw_set(username="Motion",password="Passw0rd$")
                 motion_sensor.on_connect = on_connect
                 motion_sensor.connect(broker_address)
                 motion_sensor.loop_start()
@@ -336,6 +339,7 @@ while True:
                 time.sleep(1)
                 motion_sensor.disconnect()
                 connected = False
+                motion_sensor.reinitialise()
                 print("Disconnected from MQTT Broker.")
         else:
             print("No data sent")
