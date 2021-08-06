@@ -131,7 +131,7 @@ def on_check(sensor_name, status):
                 deviceStatus = "OFF"
                 GPIO.output(RedLEDPin, False)
                 os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
-
+        
 
 def sensor_check(sensor_name, measuring_value):
   if sensor_name in sensor_array:
@@ -198,8 +198,8 @@ def sensor_check(sensor_name, measuring_value):
       print('\nDevice Status = '+deviceStatus)
       print('\nDevice Name = '+device_name)
       print('\nMeasuring factor = '+measuring_factor)
-      status = "successful"
-      return status
+
+      return measuring_factor
 
   else:
         data = "invalid"
@@ -252,16 +252,20 @@ while True:
         print("\nContent of latest dweet: " + "sensor: " + str(sensor) + ", zvalue: " + str(zvalue))
          
         checkvalue = isinstance(zvalue, int)
+        status = "null"
         if zvalue == "on" or zvalue == "off" or zvalue == "ON" or zvalue == "OFF":
-            status = on_check(sensor, zvalue)
+            on_check(sensor, zvalue)
             measuring_factor = "invalid"
+            status = "sent"
         elif checkvalue == False:
             print("Invalid Data")
             notString = "False"
-            measuring_factor = "Invalid"
-        elif checkvalue == "True":
+            measuring_factor = "invalid"
+        elif checkvalue == True:
+            print("Valid Data")
             measuring_factor = sensor_check(sensor, zvalue)
             notString = "True"
+
 
         print("\nCurrent LED Status")
         print("===========================================")
@@ -354,7 +358,7 @@ while True:
                 motion_sensor.reinitialise()
                 print("Disconnected from MQTT Broker.")
                 
-        elif status == "Successful":
+        elif status == "sent":
             print("Data sent")
         else:
             print("No data sent")
