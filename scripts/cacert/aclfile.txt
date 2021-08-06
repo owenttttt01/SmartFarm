@@ -1,14 +1,17 @@
 user Temperature
-topic farm/Temperature
+topic write farm/Temperature
 
 user Moisture
-topic farm/Soil_Moisture
+topic write farm/Soil_Moisture
 
 user Motion
-topic farm/Motion
+topic write farm/Motion
 
 user Daylight
-topic farm/Light_Intensity
+topic write farm/Light_Intensity
 
-user justin
-topic #
+user Database
+topic read farm/Temperature
+topic read farm/Soil_Moisture
+topic read farm/Motion
+topic read farm/Light_Intensity
