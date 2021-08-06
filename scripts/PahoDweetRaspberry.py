@@ -250,12 +250,19 @@ while True:
         junk, sensor = sorted_content[1]
         junk2, zvalue = sorted_content[2]
         print("\nContent of latest dweet: " + "sensor: " + str(sensor) + ", zvalue: " + str(zvalue))
-        
-        if zvalue == "on" or zvalue == "off" or zvalue == "ON" or zvalue == "OFF":
-            on_check(sensor, zvalue)
-            measuring_factor = "invalid"
+         
+        checkvalue = isinstance(zvalue, int)
+        if checkvalue == True:
+            notString = "True"
+            if zvalue == "on" or zvalue == "off" or zvalue == "ON" or zvalue == "OFF":
+                on_check(sensor, zvalue)
+                measuring_factor = "invalid"
+            else:
+                measuring_factor = sensor_check(sensor, zvalue)
         else:
-            measuring_factor = sensor_check(sensor, zvalue)
+            print("Invalid data")
+            notString = "False"
+            measuring_factor = "invalid"
 
         print("\nCurrent LED Status")
         print("===========================================")
@@ -270,7 +277,7 @@ while True:
         str_created_r = str_created.replace('"',"")
         
         
-        if measuring_factor != "invalid":
+        if measuring_factor != "invalid" and notString == "True":
             if measuring_factor == "Light_Intensity":
                  
                 daylight_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
