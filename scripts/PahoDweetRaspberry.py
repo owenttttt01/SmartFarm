@@ -252,17 +252,16 @@ while True:
         print("\nContent of latest dweet: " + "sensor: " + str(sensor) + ", zvalue: " + str(zvalue))
          
         checkvalue = isinstance(zvalue, int)
-        if checkvalue == True:
-            notString = "True"
-            if zvalue == "on" or zvalue == "off" or zvalue == "ON" or zvalue == "OFF":
-                on_check(sensor, zvalue)
-                measuring_factor = "invalid"
-            else:
-                measuring_factor = sensor_check(sensor, zvalue)
-        else:
-            print("Invalid data")
-            notString = "False"
+        if zvalue == "on" or zvalue == "off" or zvalue == "ON" or zvalue == "OFF":
+            on_check(sensor, zvalue)
             measuring_factor = "invalid"
+        elif checkvalue == False:
+            print("Invalid Data")
+            notString = "False"
+            measuring_factor = "Invalid"
+        else:
+            measuring_factor = sensor_check(sensor, zvalue)
+            notString = "True"
 
         print("\nCurrent LED Status")
         print("===========================================")
