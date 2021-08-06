@@ -75,7 +75,7 @@ def on_check(sensor_name, status):
         if  (position == 0):
             device_id = "1"
 
-            if (status == "on"):
+            if (status == "on" or status == "ON"):
                 sensor_dict["Smart Light"] = "ON"
                 deviceStatus = "ON"
                 GPIO.output(YellowLEDPin, True)
@@ -89,7 +89,7 @@ def on_check(sensor_name, status):
         elif (position == 1):
             device_id = "2"
 
-            if (status == "on"):
+            if (status == "on" or status == "ON"):
                 sensor_dict["Smart Sprinkler"] = "ON"
                 deviceStatus = "ON"
                 GPIO.output(BlueLEDPin, True)
@@ -104,7 +104,7 @@ def on_check(sensor_name, status):
             device_id = "3"
             device_did = "1"
 
-            if (status == "on"):
+            if (status == "on" or status == "ON"):
                 sensor_dict["Smart Shelter"] = "ON"
                 sensor_dict["Smart Light"] = "ON"
                 deviceStatus = "ON"
@@ -121,7 +121,7 @@ def on_check(sensor_name, status):
         elif (position == 3):
             device_id = "4"
 
-            if (status == "on"):
+            if (status == "on" or status == "ON"):
                 sensor_dict["Smart Scarecrow"] = "ON"
                 deviceStatus = "ON"
                 GPIO.output(RedLEDPin, True)
@@ -251,7 +251,7 @@ while True:
         junk2, zvalue = sorted_content[2]
         print("\nContent of latest dweet: " + "sensor: " + str(sensor) + ", zvalue: " + str(zvalue))
         
-        if zvalue == "on" or zvalue == "off":
+        if zvalue == "on" or zvalue == "off" or zvalue == "ON" or zvalue == "OFF":
             on_check(sensor, zvalue)
             measuring_factor = "invalid"
         else:
