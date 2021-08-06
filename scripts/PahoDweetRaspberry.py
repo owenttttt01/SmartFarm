@@ -35,7 +35,7 @@ old_created = old_dweet[0]['created']
 print(old_created)
 
 #Dweet Password
-master_password= "poggers"
+master_password= "P@sswordC0$T"
 
 #Emulate Raspberry Pi
 GPIO.setmode(GPIO.BCM)
