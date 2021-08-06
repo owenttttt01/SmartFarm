@@ -259,7 +259,7 @@ while True:
             print("Invalid Data")
             notString = "False"
             measuring_factor = "Invalid"
-        else:
+        elif checkvalue == "True":
             measuring_factor = sensor_check(sensor, zvalue)
             notString = "True"
 
