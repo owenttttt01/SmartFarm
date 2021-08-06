@@ -95,7 +95,7 @@ Messagereceived=False
 client.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
 
 connected=False
-client.username_pw_set(username="justin",password="itztimmy")
+client.username_pw_set(username="Database",password="Passw0rd$")
 client.on_message = on_message
 client.connect(broker)
 client.on_connect = on_connect
