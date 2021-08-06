@@ -282,6 +282,7 @@ while True:
                 while connected != True:
                     time.sleep(0.1)
                 daylight_sensor.loop_stop()
+                daylight_sensor.publish('farm/'+measuring_factor, str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
                 print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
                 print("Sent to topic: farm/"+measuring_factor)
                 time.sleep(1)
