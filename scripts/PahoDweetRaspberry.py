@@ -198,8 +198,8 @@ def sensor_check(sensor_name, measuring_value):
       print('\nDevice Status = '+deviceStatus)
       print('\nDevice Name = '+device_name)
       print('\nMeasuring factor = '+measuring_factor)
-
-      return measuring_factor
+      status = "successful"
+      return status
 
   else:
         data = "invalid"
@@ -253,7 +253,7 @@ while True:
          
         checkvalue = isinstance(zvalue, int)
         if zvalue == "on" or zvalue == "off" or zvalue == "ON" or zvalue == "OFF":
-            on_check(sensor, zvalue)
+            status = on_check(sensor, zvalue)
             measuring_factor = "invalid"
         elif checkvalue == False:
             print("Invalid Data")
@@ -353,6 +353,9 @@ while True:
                 connected = False
                 motion_sensor.reinitialise()
                 print("Disconnected from MQTT Broker.")
+                
+        elif status == "Successful":
+            print("Data sent")
         else:
             print("No data sent")
             continue
