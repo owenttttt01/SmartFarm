@@ -40,7 +40,7 @@ def main():
             os.system("echo " + username + ":" + passwd + " > /root/iot_vol/SmartFarm/scripts/cacert/password.txt")
             os.system("mosquitto_passwd -U /root/iot_vol/SmartFarm/scripts/cacert/password.txt")
     else:
-        print("Password invalid")
+        print("Password invalid: too weak")
 
 # Driver Code   
 if __name__ == '__main__':
