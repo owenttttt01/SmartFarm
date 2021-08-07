@@ -22,10 +22,10 @@ _=os.system("clear")
 
 broker_address="172.19.0.12"
 
-daylight_sensor = mqtt.Client("Daylight",maximum_packet_size = 300)
-moisture_sensor = mqtt.Client("Moisture", maximum_packet_size = 300)
-thermometer = mqtt.Client("Temperature", maximum_packet_size = 300)
-motion_sensor = mqtt.Client("Motion", maximum_packet_size = 300)
+daylight_sensor = mqtt.Client("Daylight")
+moisture_sensor = mqtt.Client("Moisture")
+thermometer = mqtt.Client("Temperature")
+motion_sensor = mqtt.Client("Motion")
 
 myThing = "sussyfarm"
 
@@ -301,7 +301,6 @@ while True:
                 keyfile.close()
 
                 daylight_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-                daylight_sensor.max_queued_messages_set(self, 20)
                 daylight_sensor.username_pw_set(username="Daylight",password="Passw0rd$")
                 daylight_sensor.on_connect = on_connect
                 daylight_sensor.on_log = on_log
@@ -311,12 +310,13 @@ while True:
                 while connected != True:
                     time.sleep(0.1)
                 daylight_sensor.loop_stop()
-                message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue)
+                #message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue) 
+                message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue) + str(zvalue) + str(zvalue) +str(zvalue) + str(zvalue) + str(zvalue) 
                 encrypted_message = cipher.encrypt(message.encode())
                 
                 #turn encrypted msg into a string
                 out_message = encrypted_message.decode()
-                daylight_sensor.publish('farm/'+measuring_factor, out_message, qos=1)
+                daylight_sensor.publish('farm/'+measuring_factor, out_message , qos=1)
                 print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
                 message_hash = hashlib.md5(encrypted_message).hexdigest()
                 print("Hash of message sent: " + message_hash)
@@ -341,7 +341,6 @@ while True:
                 keyfile.close()
                 
                 moisture_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-                moisture_sensor.max_queued_messages_set(self, 20)
                 daylight_sensor.username_pw_set(username="Daylight",password="Passw0rd$")
                 connected=False
                 moisture_sensor.username_pw_set(username="Moisture",password="Passw0rd$")
@@ -384,7 +383,6 @@ while True:
                 keyfile.close()
                 
                 thermometer.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-                thermometer.max_queued_messages_set(self, 20)
                 thermometer.username_pw_set(username="Temperature",password="Passw0rd$")
                 thermometer.on_connect = on_connect
                 thermometer.on_log = on_log
@@ -428,7 +426,6 @@ while True:
                 keyfile.close()
 
                 motion_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-                motion_sensor.max_queued_messages_set(self, 20)
                 motion_sensor.username_pw_set(username="Motion",password="Passw0rd$")
                 motion_sensor.on_connect = on_connect
                 motion_sensor.on_log = on_log
