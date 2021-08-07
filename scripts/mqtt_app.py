@@ -10,7 +10,7 @@ import hashlib
 _=os.system("clear")
 
 broker = "172.19.0.12"
-client = mqtt.Client("subscriber")
+client = mqtt.Client("subscriber", clean_session=True)
 
 def on_log(client, userdata, level, buf):
     print("log: ",buf)
@@ -36,7 +36,7 @@ def on_message(client, userdata, message):
     message_hash = hashlib.md5(message.payload).hexdigest()
     print("\n\nEncrypted Message: \n" + message.payload.decode("utf-8"))
     print("\nEncrypted message hash: " + message_hash)
-    #decrypt message)
+    #decrypt message
     decrypted_message = cipher.decrypt(message.payload)
 
     sensor_msg = str(decrypted_message.decode("utf-8"))
