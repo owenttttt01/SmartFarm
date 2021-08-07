@@ -5,6 +5,8 @@ import time
 import paho.mqtt.client as mqtt
 import re
 import os
+from cryptography.fernet import Fernet
+import hashlib
 _=os.system("clear")
 
 broker = "172.19.0.12"
