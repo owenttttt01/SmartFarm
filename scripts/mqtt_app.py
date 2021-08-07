@@ -10,7 +10,7 @@ import hashlib
 _=os.system("clear")
 
 broker = "172.19.0.12"
-client = mqtt.Client("subscriber", clean_session=True)
+client = mqtt.Client("subscriber", clean_session=False)
 
 def on_log(client, userdata, level, buf):
     print("log: ",buf)
