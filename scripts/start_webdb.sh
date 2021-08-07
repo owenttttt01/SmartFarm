@@ -48,6 +48,10 @@ then
 	ufw allow from 172.19.0.1  proto tcp to any port 8080 >/dev/null
 	#ufw limit from 172.19.0.1  proto tcp to any port 80 >/dev/null
 	#ufw limit from 172.19.0.1  proto tcp to any port 8080 >/dev/null
+	ufw allow from 172.19.0.11  proto tcp to any port 80 >/dev/null
+	ufw allow from 172.19.0.11  proto tcp to any port 8080 >/dev/null
+	#ufw limit from 172.19.0.11  proto tcp to any port 80 >/dev/null
+	#ufw limit from 172.19.0.11  proto tcp to any port 8080 >/dev/null
 	ufw logging full >/dev/null
 	ufw reload >/dev/null
 fi
