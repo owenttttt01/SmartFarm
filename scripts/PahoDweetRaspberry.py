@@ -328,7 +328,11 @@ while True:
                 #cipher = Fernet(cipher_key)
 
                 #writing key into a file
-                keyfile = open("cipher_key", "wb")
+                #keyfile = open("cipher_key", "wb")
+                #keyfile.write(cipher_key)
+                #keyfile.close()
+                
+                keyfile = open("cipher_key", "rb")
                 keyfile.write(cipher_key)
                 keyfile.close()
                 
@@ -369,6 +373,10 @@ while True:
                 #keyfile.write(cipher_key)
                 #keyfile.close()
                 
+                keyfile = open("cipher_key", "rb" )
+                keyfile.write(cipher_key)
+                keyfile.close()
+                
                 thermometer.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
                 thermometer.username_pw_set(username="Temperature",password="Passw0rd$")
                 thermometer.on_connect = on_connect
@@ -406,7 +414,7 @@ while True:
                 #keyfile.write(cipher_key)
                 #keyfile.close()
                 
-                keyfile = open("cypher_key",rb)
+                keyfile = open("cypher_key", "rb")
                 cipher = Fernet(keyfile.readline())
                 keyfile.close()
 
