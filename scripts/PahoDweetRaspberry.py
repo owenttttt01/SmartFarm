@@ -17,6 +17,7 @@ import json
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
 from cryptography.fernet import Fernet
+import hashlib
 _=os.system("clear")
 
 broker_address="172.19.0.12"
