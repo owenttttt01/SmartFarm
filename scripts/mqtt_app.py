@@ -20,12 +20,23 @@ def on_connect(client, userdata, flags, rc):
 
 def on_message(client, userdata, message):
     Messagereceived=True
+    #read from keyfile
+    keyfile = open("cipher_key", "rb")
+    cipher = Fernet(keyfile.readline())
+    keyfile.close()
+
     #print("received message = " + str(message.payload.decode("utf-8")))
     #print("message topic = " + str(message.topic))
-    
+    #check message hash
+    message_hash = hashlib.md5(message.payload).hexdigest()
+    print("Encrypted Message: " + message.payload.decode("utf-8"))
+    print("Encrypted message hash: " + message_hash)
+    #decrypt message)
+    decrypted_message = cipher.decrypt(message.payload)
 
-    sensor_msg = str(message.payload.decode("utf-8"))
-    topic = str(message.topic)
+    sensor_msg = str(decrypted_message.decode("utf-8"))
+    print("Sensor Message:" + sensor_msg)
+    print("Topic received from: " + str(message.topic))
 
     #filter by timestamp, measuring factor and sensor name
     split_msg = sensor_msg.split(",")
