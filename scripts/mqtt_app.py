@@ -12,6 +12,9 @@ _=os.system("clear")
 broker = "172.19.0.12"
 client = mqtt.Client("subscriber")
 
+def on_log(client, userdata, level, buf):
+    print("log: ",buf)
+
 def on_connect(client, userdata, flags, rc):
     if rc == 0:
         print("Connected to MQTT Broker!")
@@ -31,14 +34,14 @@ def on_message(client, userdata, message):
     #print("message topic = " + str(message.topic))
     #check message hash
     message_hash = hashlib.md5(message.payload).hexdigest()
-    print("Encrypted Message: " + message.payload.decode("utf-8"))
-    print("Encrypted message hash: " + message_hash)
+    print("\n\nEncrypted Message: \n" + message.payload.decode("utf-8"))
+    print("\nEncrypted message hash: " + message_hash)
     #decrypt message)
     decrypted_message = cipher.decrypt(message.payload)
 
     sensor_msg = str(decrypted_message.decode("utf-8"))
-    print("Sensor Message:" + sensor_msg)
-    print("Topic received from: " + str(message.topic))
+    #print("\nSensor Message:" + sensor_msg)
+    #print("Topic received from: " + str(message.topic))
 
     #filter by timestamp, measuring factor and sensor name
     split_msg = sensor_msg.split(",")
@@ -114,7 +117,8 @@ client.username_pw_set(username="Database",password="Passw0rd$")
 client.on_message = on_message
 client.connect(broker)
 client.on_connect = on_connect
-client.subscribe("farm/+")
+client.on_log = on_log
+client.subscribe("farm/+", qos=1)
 client.loop_start()
 while connected != True:
     time.sleep(0.1)

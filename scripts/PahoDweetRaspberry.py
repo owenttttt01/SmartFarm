@@ -22,10 +22,10 @@ _=os.system("clear")
 
 broker_address="172.19.0.12"
 
-daylight_sensor = mqtt.Client("Daylight",clean_session=True)
-moisture_sensor = mqtt.Client("Moisture")
-thermometer = mqtt.Client("Temperature")
-motion_sensor = mqtt.Client("Motion")
+daylight_sensor = mqtt.Client("Daylight",maximum_packet_size = 300)
+moisture_sensor = mqtt.Client("Moisture", maximum_packet_size = 300)
+thermometer = mqtt.Client("Temperature", maximum_packet_size = 300)
+motion_sensor = mqtt.Client("Motion", maximum_packet_size = 300)
 
 myThing = "sussyfarm"
 
@@ -69,6 +69,8 @@ sensor_dict = {
         }
 
 deviceStatus = "OFF"
+def on_log(client, userdata, level, buf):
+    print("log: ",buf)
 
 def on_check(sensor_name, status):
     if sensor_name in sensor_array:
@@ -132,7 +134,8 @@ def on_check(sensor_name, status):
                 deviceStatus = "OFF"
                 GPIO.output(RedLEDPin, False)
                 os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
-        
+    
+    
 
 def sensor_check(sensor_name, measuring_value):
   if sensor_name in sensor_array:
@@ -251,7 +254,8 @@ while True:
         junk, sensor = sorted_content[1]
         junk2, zvalue = sorted_content[2]
         print("\nContent of latest dweet: " + "sensor: " + str(sensor) + ", zvalue: " + str(zvalue))
-         
+        
+
         checkvalue = isinstance(zvalue, int)
         status = "null"
         if zvalue == "on" or zvalue == "off" or zvalue == "ON" or zvalue == "OFF":
@@ -297,9 +301,10 @@ while True:
                 keyfile.close()
 
                 daylight_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-
+                daylight_sensor.max_queued_messages_set(self, 20)
                 daylight_sensor.username_pw_set(username="Daylight",password="Passw0rd$")
                 daylight_sensor.on_connect = on_connect
+                daylight_sensor.on_log = on_log
                 daylight_sensor.connect(broker_address)
                 
                 daylight_sensor.loop_start()
@@ -312,14 +317,13 @@ while True:
                 #turn encrypted msg into a string
                 out_message = encrypted_message.decode()
                 daylight_sensor.publish('farm/'+measuring_factor, out_message, qos=1)
-                
                 print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
                 message_hash = hashlib.md5(encrypted_message).hexdigest()
                 print("Hash of message sent: " + message_hash)
                 print("Sent to topic: farm/"+measuring_factor)
                 time.sleep(1)
                 daylight_sensor.disconnect()
-                print("Disconnected from MQTT Broker.")
+                #print("Disconnected from MQTT Broker.")
                 connected = False
                 daylight_sensor.reinitialise()
             elif measuring_factor == "Soil_Moisture": 
@@ -337,9 +341,12 @@ while True:
                 keyfile.close()
                 
                 moisture_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
+                moisture_sensor.max_queued_messages_set(self, 20)
+                daylight_sensor.username_pw_set(username="Daylight",password="Passw0rd$")
                 connected=False
                 moisture_sensor.username_pw_set(username="Moisture",password="Passw0rd$")
                 moisture_sensor.on_connect = on_connect
+                moisture_sensor.on_log = on_log
                 moisture_sensor.connect(broker_address)
                 
                 moisture_sensor.loop_start()
@@ -352,9 +359,8 @@ while True:
                 
                 #turn encrypted msg into a string
                 out_message = encrypted_message.decode()
-                moisture_sensor.publish('farm/'+measuring_factor, out_message)
-
-                print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                moisture_sensor.publish('farm/'+measuring_factor, out_message, qos=1)
+                print("\n\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
                 message_hash = hashlib.md5(encrypted_message).hexdigest()
                 print("Hash of message sent: " + message_hash)
                 print("Sent to topic: farm/"+measuring_factor)
@@ -362,7 +368,7 @@ while True:
                 moisture_sensor.disconnect()
                 connected = False
                 moisture_sensor.reinitialise()
-                print("Disconnected from MQTT Broker.")
+                #print("Disconnected from MQTT Broker.")
             elif measuring_factor == "Temperature":
                 
                 #cipher_key = Fernet.generate_key()
@@ -378,8 +384,11 @@ while True:
                 keyfile.close()
                 
                 thermometer.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
+                thermometer.max_queued_messages_set(self, 20)
                 thermometer.username_pw_set(username="Temperature",password="Passw0rd$")
                 thermometer.on_connect = on_connect
+                thermometer.on_log = on_log
+
                 
                 thermometer.connect(broker_address)
                 thermometer.loop_start()
@@ -392,9 +401,9 @@ while True:
                 
                 #turn encrypted msg into a string
                 out_message = encrypted_message.decode()
-                thermometer.publish('farm/'+measuring_factor, out_message)
+                thermometer.publish('farm/'+measuring_factor, out_message, qos=1)
                 
-                print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                print("\n\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
                 message_hash = hashlib.md5(encrypted_message).hexdigest()
                 print("Hash of message sent: " + message_hash)
                 print("Sent to topic: farm/"+measuring_factor)
@@ -403,7 +412,7 @@ while True:
                 
                 connected = False  
                 thermometer.reinitialise()
-                print("Disconnected from MQTT Broker.")
+                #print("Disconnected from MQTT Broker.")
             elif measuring_factor =="Motion": 
 
                 #cipher_key = Fernet.generate_key()
@@ -419,8 +428,10 @@ while True:
                 keyfile.close()
 
                 motion_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
+                motion_sensor.max_queued_messages_set(self, 20)
                 motion_sensor.username_pw_set(username="Motion",password="Passw0rd$")
                 motion_sensor.on_connect = on_connect
+                motion_sensor.on_log = on_log
                 motion_sensor.connect(broker_address)
                 
                 motion_sensor.loop_start()
@@ -432,9 +443,9 @@ while True:
                 encrypted_message = cipher.encrypt(message.encode())
                 #turn encrypted msg into a string
                 out_message = encrypted_message.decode()
-                motion_sensor.publish('farm/'+measuring_factor, out_message)
+                motion_sensor.publish('farm/'+measuring_factor, out_message, qos=1)
                 
-                print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                print("\n\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
                 message_hash = hashlib.md5(encrypted_message).hexdigest()
                 print("Hash of message sent: " + message_hash)
                 print("Sent to topic: farm/"+measuring_factor)
@@ -442,7 +453,7 @@ while True:
                 motion_sensor.disconnect()
                 connected = False
                 motion_sensor.reinitialise()
-                print("Disconnected from MQTT Broker.")
+                #print("Disconnected from MQTT Broker.")
                 
         elif status == "sent":
             print("Data sent")
