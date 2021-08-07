@@ -310,8 +310,7 @@ while True:
                 while connected != True:
                     time.sleep(0.1)
                 daylight_sensor.loop_stop()
-                #message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue) 
-                message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue) + str(zvalue) + str(zvalue) +str(zvalue) + str(zvalue) + str(zvalue) 
+                message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue)
                 encrypted_message = cipher.encrypt(message.encode())
                 
                 #turn encrypted msg into a string
