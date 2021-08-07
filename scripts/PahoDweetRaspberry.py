@@ -414,7 +414,7 @@ while True:
                 #keyfile.write(cipher_key)
                 #keyfile.close()
                 
-                keyfile = open("cypher_key", "rb")
+                keyfile = open("cipher_key", "rb")
                 cipher = Fernet(keyfile.readline())
                 keyfile.close()
 
