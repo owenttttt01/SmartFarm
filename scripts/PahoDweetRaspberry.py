@@ -16,7 +16,7 @@ import time
 import json
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
-
+from cryptography.fernet import Fernet
 _=os.system("clear")
 
 broker_address="172.19.0.12"
@@ -283,17 +283,38 @@ while True:
         if measuring_factor != "invalid" and notString == "True":
             if measuring_factor == "Light_Intensity":
                  
+                #cipher_key = Fernet.generate_key()
+                #cipher = Fernet(cipher_key)
+
+                #writing key into a file
+                #keyfile = open("cipher_key", "wb")
+                #keyfile.write(cipher_key)
+                #keyfile.close()
+
+                keyfile = open("cipher_key", "rb")
+                cipher = Fernet(keyfile.readline())
+                keyfile.close()
+
                 daylight_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
 
                 daylight_sensor.username_pw_set(username="Daylight",password="Passw0rd$")
                 daylight_sensor.on_connect = on_connect
                 daylight_sensor.connect(broker_address)
+                
                 daylight_sensor.loop_start()
                 while connected != True:
                     time.sleep(0.1)
                 daylight_sensor.loop_stop()
-                daylight_sensor.publish('farm/'+measuring_factor, str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue)
+                encrypted_message = cipher.encrypt(message.encode())
+                
+                #turn encrypted msg into a string
+                out_message = encrypted_message.decode()
+                daylight_sensor.publish('farm/'+measuring_factor, out_message, qos=1)
+                
                 print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                message_hash = hashlib.md5(encrypted_message).hexdigest()
+                print("Hash of message sent: " + message_hash)
                 print("Sent to topic: farm/"+measuring_factor)
                 time.sleep(1)
                 daylight_sensor.disconnect()
@@ -302,17 +323,35 @@ while True:
                 daylight_sensor.reinitialise()
             elif measuring_factor == "Soil_Moisture": 
 
+                #cipher_key = Fernet.generate_key()
+                #cipher = Fernet(cipher_key)
+
+                #writing key into a file
+                keyfile = open("cipher_key", "wb")
+                keyfile.write(cipher_key)
+                keyfile.close()
+                
                 moisture_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
                 connected=False
                 moisture_sensor.username_pw_set(username="Moisture",password="Passw0rd$")
                 moisture_sensor.on_connect = on_connect
                 moisture_sensor.connect(broker_address)
+                
                 moisture_sensor.loop_start()
                 while connected != True:
                     time.sleep(0.1)
                 moisture_sensor.loop_stop()
-                moisture_sensor.publish('farm/'+measuring_factor, str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                
+                message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue)
+                encrypted_message = cipher.encrypt(message.encode())
+                
+                #turn encrypted msg into a string
+                out_message = encrypted_message.decode()
+                moisture_sensor.publish('farm/'+measuring_factor, out_message)
+
                 print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                message_hash = hashlib.md5(encrypted_message).hexdigest()
+                print("Hash of message sent: " + message_hash)
                 print("Sent to topic: farm/"+measuring_factor)
                 time.sleep(1)
                 moisture_sensor.disconnect()
@@ -321,17 +360,34 @@ while True:
                 print("Disconnected from MQTT Broker.")
             elif measuring_factor == "Temperature":
                 
+                #cipher_key = Fernet.generate_key()
+                #cipher = Fernet(cipher_key)
+
+                #writing key into a file
+                #keyfile = open("cipher_key", "wb")
+                #keyfile.write(cipher_key)
+                #keyfile.close()
+                
                 thermometer.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
-            
                 thermometer.username_pw_set(username="Temperature",password="Passw0rd$")
                 thermometer.on_connect = on_connect
+                
                 thermometer.connect(broker_address)
                 thermometer.loop_start()
                 while connected != True:
                     time.sleep(0.1)
                 thermometer.loop_stop()
-                thermometer.publish('farm/'+measuring_factor, str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                
+                message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue)
+                encrypted_message = cipher.encrypt(message.encode())
+                
+                #turn encrypted msg into a string
+                out_message = encrypted_message.decode()
+                thermometer.publish('farm/'+measuring_factor, out_message)
+                
                 print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                message_hash = hashlib.md5(encrypted_message).hexdigest()
+                print("Hash of message sent: " + message_hash)
                 print("Sent to topic: farm/"+measuring_factor)
                 time.sleep(1)
                 thermometer.disconnect()
@@ -341,16 +397,37 @@ while True:
                 print("Disconnected from MQTT Broker.")
             elif measuring_factor =="Motion": 
 
+                #cipher_key = Fernet.generate_key()
+                #cipher = Fernet(cipher_key)
+
+                #writing key into a file
+                #keyfile = open("cipher_key", "wb")
+                #keyfile.write(cipher_key)
+                #keyfile.close()
+                
+                keyfile = open("cypher_key",rb)
+                cipher = Fernet(keyfile.readline())
+                keyfile.close()
+
                 motion_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
                 motion_sensor.username_pw_set(username="Motion",password="Passw0rd$")
                 motion_sensor.on_connect = on_connect
                 motion_sensor.connect(broker_address)
+                
                 motion_sensor.loop_start()
                 while connected != True:
                     time.sleep(0.1)
                 motion_sensor.loop_stop()
-                motion_sensor.publish('farm/'+measuring_factor, str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+
+                message = str_created_r + ",sensor:" + str(sensor) + ",zvalue:"+ str(zvalue)
+                encrypted_message = cipher.encrypt(message.encode())
+                #turn encrypted msg into a string
+                out_message = encrypted_message.decode()
+                motion_sensor.publish('farm/'+measuring_factor, out_message)
+                
                 print("\nInformation Sent Across:\n", str_created_r + ",sensor:" + str(sensor) + ",zvalue:" + str(zvalue))
+                message_hash = hashlib.md5(encrypted_message).hexdigest()
+                print("Hash of message sent: " + message_hash)
                 print("Sent to topic: farm/"+measuring_factor)
                 time.sleep(1)
                 motion_sensor.disconnect()
