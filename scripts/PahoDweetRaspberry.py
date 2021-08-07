@@ -333,7 +333,7 @@ while True:
                 #keyfile.close()
                 
                 keyfile = open("cipher_key", "rb")
-                keyfile.write(cipher_key)
+                cipher = Fernet(keyfile.readline())
                 keyfile.close()
                 
                 moisture_sensor.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
@@ -374,7 +374,7 @@ while True:
                 #keyfile.close()
                 
                 keyfile = open("cipher_key", "rb" )
-                keyfile.write(cipher_key)
+                cipher = Fernet(keyfile.readline())
                 keyfile.close()
                 
                 thermometer.tls_set(ca_certs='/root/iot_vol/SmartFarm/scripts/cacert/ca.crt', tls_version=ssl.PROTOCOL_TLS)
