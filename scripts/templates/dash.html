@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<title>Smart Farm: Dashboard</title>
+<!-- Header -->
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<style>
+    .table{
+        text-align: center;
+    }
+    .center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    table {
+        border-collapse: collapse;
+        width: 50%;
+        
+        
+    }
+    body{
+        /* background: url(/static/image.jpg);
+        background-repeat: no-repeat;
+        background-size: 100%; */
+     
+        
+    } 
+  
+    
+</style>
+<body>
+<div class="w3-container" style="margin-top:80px" id="showcase">
+    <center><h2>Dashboard</h2></center>
+    <center><img src={{url}} alt="Chart" height="auto" width="40%"><img src={{url2}} alt="Chart" height="auto" width="40%"></center>
+    <center><img src={{url3}} alt="Chart" height="auto" width="40%"><img src={{url4}} alt="Chart" height="auto" width="40%"></center>
+        </div>
+        </body>
+        
+  
+      {% endblock %}
