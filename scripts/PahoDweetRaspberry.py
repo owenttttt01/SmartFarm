@@ -190,7 +190,7 @@ def sensor_check(sensor_name, measuring_value):
           measuring_factor = "Motion"
           device_id = "4"
 
-          if (measuring_value > 35):
+          if (measuring_value > 0):
               sensor_dict["Smart Scarecrow"] = "ON"
               deviceStatus = "ON"
               GPIO.output(RedLEDPin, True)
