@@ -89,7 +89,7 @@ def on_message(client, userdata, message):
             device_name = "SmartScarecrow"
             measuring_factor = "Motion_Detection"
             device_id = "4"
-            if (measuring_value > 35):
+            if (measuring_value > 0):
                 deviceStatus = "ON"
         
         print('\nDevice Status = '+deviceStatus)
