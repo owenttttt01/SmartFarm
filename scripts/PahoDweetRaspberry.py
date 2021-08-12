@@ -105,16 +105,14 @@ def on_check(sensor_name, status):
 
         elif (position == 2):
             device_id = "3"
-            device_did = "1"
 
             if (status == "on" or status == "ON"):
                 sensor_dict["Smart Shelter"] = "ON"
-                sensor_dict["Smart Light"] = "ON"
                 deviceStatus = "ON"
                 GPIO.output(GreenLEDPin, True)
                 GPIO.output(YellowLEDPin, True)
                 os.system('curl http://172.19.0.13:8080/update/'+device_id+'?"DeviceStatus='+deviceStatus+'"')
-                os.system('curl http://172.19.0.13:8080/update/'+device_did+'?"DeviceStatus='+deviceStatus+'"')
+                
             else:
                 sensor_dict["Smart Shelter"] = "OFF"
                 deviceStatus = "OFF"
